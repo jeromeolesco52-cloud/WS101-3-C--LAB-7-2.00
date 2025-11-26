@@ -1,57 +1,52 @@
-package com.Etac.John.Llyod.WS101_Act7;
+package com.Etac.John.Llyod.WS101_Act7.model;
 
-import org.springframework.stereotype.Service;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.concurrent.atomic.AtomicLong;
+public class Product {
+    private Long id;
+    private String name;
+    private Double price;
 
-@Service
-public class ProductService {
-    private final List<Product> products = new ArrayList<>();
-    private final AtomicLong idCounter = new AtomicLong(3); // Starting after initial mock data
-
-    // Initialize with mock data
-    public ProductService() {
-        products.add(new Product(1L, "Laptop Pro", 1299.99));
-        products.add(new Product(2L, "Wireless Mouse", 29.99));
-        products.add(new Product(3L, "Mechanical Keyboard", 89.99));
+    // Default constructor
+    public Product() {
     }
 
-    // GET ALL PRODUCTS
-    public List<Product> getAllProducts() {
-        return new ArrayList<>(products);
+    // All-args constructor
+    public Product(Long id, String name, Double price) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
     }
 
-    // GET PRODUCT BY ID
-    public Optional<Product> getProductById(Long id) {
-        return products.stream()
-                .filter(product -> product.getId().equals(id))
-                .findFirst();
+    // Getters and setters
+    public Long getId() {
+        return id;
     }
 
-    // CREATE NEW PRODUCT
-    public Product createProduct(Product product) {
-        Long newId = idCounter.incrementAndGet();
-        product.setId(newId);
-        products.add(product);
-        return product;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    // UPDATE EXISTING PRODUCT
-    public Optional<Product> updateProduct(Long id, Product productDetails) {
-        Optional<Product> existingProduct = getProductById(id);
-        if (existingProduct.isPresent()) {
-            Product product = existingProduct.get();
-            product.setName(productDetails.getName());
-            product.setPrice(productDetails.getPrice());
-            return Optional.of(product);
-        }
-        return Optional.empty();
+    public String getName() {
+        return name;
     }
 
-    // DELETE PRODUCT
-    public boolean deleteProduct(Long id) {
-        return products.removeIf(product -> product.getId().equals(id));
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                '}';
     }
 }
